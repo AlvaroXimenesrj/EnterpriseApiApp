@@ -33,14 +33,35 @@ namespace NSE.Identidade.API
             #endregion
             services.AddControllers();
 
+            #region Swagger
             services.AddSwaggerGen(c =>
             {
-                c.SwaggerDoc("v1", new OpenApiInfo { Title = "NSE.Identidade.API", Version = "v1" });
+                c.SwaggerDoc("v1", new OpenApiInfo
+                {
+                    Title = "NerdStore Enterprise Identity API",
+                    Description = "Esta API faz parte do curso ASP.NET Core Enterprise Application.",
+                    Contact = new OpenApiContact() { Name = "Álvaro", Email = "alvaro@gmail.com" },
+                    License = new OpenApiLicense()
+                    {
+                        Name = "MIT",
+                        Url = new System.Uri("https://opensource.org/licenses/MIT")
+
+                    }
+                });
             });
+            #endregion
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
+
+            app.UseSwagger();
+
+            app.UseSwaggerUI(c =>
+            {
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "v1");
+            });
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
